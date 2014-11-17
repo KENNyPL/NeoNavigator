@@ -1,4 +1,4 @@
-package com.springapp.mvc.rest.data;
+package pl.cydo.neo.navigator.web.controller.rest.data;
 
 public class Greeting {
 

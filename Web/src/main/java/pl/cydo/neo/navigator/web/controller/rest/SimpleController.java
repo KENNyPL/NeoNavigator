@@ -1,4 +1,4 @@
-package com.springapp.mvc.rest;
+package pl.cydo.neo.navigator.web.controller.rest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

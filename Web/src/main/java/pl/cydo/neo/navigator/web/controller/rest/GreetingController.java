@@ -1,10 +1,10 @@
-package com.springapp.mvc.rest;
+package pl.cydo.neo.navigator.web.controller.rest;
 
-import com.springapp.mvc.rest.data.Greeting;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import pl.cydo.neo.navigator.web.controller.rest.data.Greeting;
 
 import java.util.concurrent.atomic.AtomicLong;
 

@@ -1,4 +1,4 @@
-package com.springapp.mvc;
+package pl.cydo.neo.navigator.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
