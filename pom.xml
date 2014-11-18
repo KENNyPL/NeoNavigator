@@ -8,6 +8,7 @@
     <modules>
         <module>Web</module>
         <module>Business</module>
+        <module>Mobile</module>
     </modules>
     <name>NeoNavigator</name>
 
