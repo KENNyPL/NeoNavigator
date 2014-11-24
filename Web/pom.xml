@@ -12,6 +12,14 @@
 
     <artifactId>Web</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>pl.cydo</groupId>
+            <artifactId>Business</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
     <build>
         <finalName>NeoNavigator</finalName>

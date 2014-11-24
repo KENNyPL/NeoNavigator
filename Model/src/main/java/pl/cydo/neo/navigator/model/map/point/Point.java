@@ -1,7 +1,10 @@
 package pl.cydo.neo.navigator.model.map.point;
 
+import org.springframework.data.neo4j.annotation.NodeEntity;
+
 import java.math.BigDecimal;
 
+@NodeEntity
 public abstract class Point {
     protected BigDecimal latitude;
     protected BigDecimal longitude;
