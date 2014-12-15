@@ -11,26 +11,6 @@
     <context:annotation-config/>
     <neo4j:config
             storeDirectory="/db/neo4j"
-            base-package="pl.cydo.neo.navigator.model.map.service.category"/>
+            base-package="pl.cydo.neo.navigator.model.map"/>
     <neo4j:repositories base-package="pl.cydo.neo.navigator.business.repository"/>
-
-    <!--<context:annotation-config/>-->
-    <!--&lt;!&ndash;<neo4j:config/>&ndash;&gt;-->
-    <!--<neo4j:config storeDirectory="target/data/db" base-package="pl.cydo.neo.navigator.business.repository"/>-->
-
-    <!--<bean id="neo4jTransactionManager"-->
-          <!--class="org.springframework.transaction.jta.JtaTransactionManager">-->
-        <!--<property name="transactionManager">-->
-            <!--<bean class="org.neo4j.kernel.impl.transaction.SpringTransactionManager">-->
-                <!--<constructor-arg ref="graphDatabaseService"/>-->
-            <!--</bean>-->
-        <!--</property>-->
-        <!--<property name="userTransaction">-->
-            <!--<bean class="org.neo4j.kernel.impl.transaction.UserTransactionImpl">-->
-                <!--<constructor-arg ref="graphDatabaseService"/>-->
-            <!--</bean>-->
-        <!--</property>-->
-        <!--<property name="allowCustomIsolationLevels" value="true"/>-->
-    <!--</bean>-->
-
 </beans>

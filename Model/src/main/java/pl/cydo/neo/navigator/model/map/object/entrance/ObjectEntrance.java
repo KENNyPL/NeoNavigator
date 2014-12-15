@@ -4,7 +4,7 @@ import pl.cydo.neo.navigator.model.utils.Time;
 
 import java.util.List;
 
-public  class ObjectEntrance {
+public class ObjectEntrance {
     private List<ObjectEntranceAvailability> pointEntranceAvailabilities;
     private Time openFrom;
     private Time openTo;

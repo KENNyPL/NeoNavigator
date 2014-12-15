@@ -1,11 +1,19 @@
 package pl.cydo.neo.navigator.model.map.point;
 
+import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import pl.cydo.neo.navigator.model.map.zone.Zone;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @NodeEntity
 public abstract class Point {
+    @GraphId
+    private Long id;
+
+    private Set<Zone> zones;
+
     protected BigDecimal latitude;
     protected BigDecimal longitude;
 
