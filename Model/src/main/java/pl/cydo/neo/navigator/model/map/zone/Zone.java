@@ -1,12 +1,10 @@
 package pl.cydo.neo.navigator.model.map.zone;
 
 import org.neo4j.graphdb.Direction;
-import org.springframework.data.neo4j.annotation.GraphId;
-import org.springframework.data.neo4j.annotation.Indexed;
-import org.springframework.data.neo4j.annotation.NodeEntity;
-import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.annotation.*;
 import pl.cydo.neo.navigator.model.map.point.Point;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @NodeEntity
@@ -25,21 +23,21 @@ public class Zone {
     private Zone eastNeighbor;
     @RelatedTo(type = "WEST_NEIGHBOR", direction = Direction.OUTGOING)
     private Zone westNeighbor;
-
-    private Set<Point> points;
-
-    @RelatedTo(type = "ZONE_POINT", direction = Direction.BOTH)
-    public Set<Point> getPoints() {
-        return points;
-    }
+    @Fetch
+    @RelatedTo(type = "ZONE_POINT", direction = Direction.BOTH, elementClass =Point.class )
+    private Set<Point> points = new HashSet<Point>();
 
     public Zone() {
     }
 
     public Zone(Long longitude, Long latitude) {
-
+        super();
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public Set<Point> getPoints() {
+        return points;
     }
 
     public Long getId() {

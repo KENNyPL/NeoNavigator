@@ -11,11 +11,11 @@ import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import pl.cydo.neo.navigator.business.*;
 import pl.cydo.neo.navigator.business.Math;
+import pl.cydo.neo.navigator.model.map.service.ServicePoint;
 import pl.cydo.neo.navigator.model.map.zone.Zone;
 
-import java.util.HashSet;
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,6 +56,10 @@ public class ZoneRepositoryTest {
             x = 0;
             for (long j = beginLat; j < endLat; j = j + Math.GPS_POSITION_1KM_DISTANCE) {
                 Zone zoneNode = new Zone(i, j);
+                zoneNode.getPoints().add(new ServicePoint(
+                        new BigDecimal(j - Math.GPS_POSITION_1KM_DISTANCE / 2),
+                        new BigDecimal(i + Math.GPS_POSITION_1KM_DISTANCE / 2),
+                        null));
 
                 zones.add(zoneNode);
                 zoneWeb[y][x] = zoneNode;
@@ -72,9 +76,14 @@ public class ZoneRepositoryTest {
 
         int count = 0;
         Iterator<Zone> iterator = zoneRepository.findAll().iterator();
+        Zone firstZone = null;
 
         while (iterator.hasNext()) {
-            System.out.println(iterator.next());
+            if (firstZone == null) {
+                firstZone = iterator.next();
+            } else {
+                System.out.println(iterator.next());
+            }
             count++;
         }
 
@@ -84,6 +93,10 @@ public class ZoneRepositoryTest {
                 new Long(zoneWeb[10][10].getLongitude().longValue() + Math.GPS_POSITION_1KM_DISTANCE));
         Assert.assertEquals(zoneWeb[10][10].getEastNeighbor().getLatitude(),
                 new Long(zoneWeb[10][10].getLatitude().longValue() + Math.GPS_POSITION_1KM_DISTANCE));
+
+        Assert.assertEquals(firstZone.getPoints().size(), 1);
+        Assert.assertEquals(firstZone.getPoints().iterator().next().getLatitude().longValue(), firstZone.getLatitude().longValue() - Math.GPS_POSITION_1KM_DISTANCE / 2);
+        Assert.assertEquals(firstZone.getPoints().iterator().next().getLongitude().longValue(), firstZone.getLongitude().longValue() + Math.GPS_POSITION_1KM_DISTANCE / 2);
 
 
     }
