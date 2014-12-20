@@ -24,6 +24,7 @@ import java.util.Iterator;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/applicationContext-graph-test.xml")
 @Transactional
+@Ignore
 public class RepositoryTest extends Neo4jConfiguration {
     @Bean
     GraphDatabaseService graphDatabaseService() {

@@ -23,8 +23,12 @@ public class ServicePointCategory {
 
     public ServicePointCategory() {
         subCategories = new HashSet<ServicePointCategory>();
+
     }
 
+    public ServicePointCategory(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

@@ -11,6 +11,6 @@
     <context:annotation-config/>
     <neo4j:config
             storeDirectory="/db/neo4j"
-            base-package="pl.cydo.neo.navigator.model.map.service.category"/>
+            base-package="pl.cydo.neo.navigator.model.map"/>
     <neo4j:repositories base-package="pl.cydo.neo.navigator.business" />
 </beans>
