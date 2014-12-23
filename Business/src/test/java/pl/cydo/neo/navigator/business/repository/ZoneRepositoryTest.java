@@ -1,6 +1,7 @@
 package pl.cydo.neo.navigator.business.repository;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -116,6 +117,7 @@ public class ZoneRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void shouldFindAll() {
         //given
         int count = 0;

@@ -8,6 +8,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,6 +47,60 @@ public class ServicePointServiceTest extends TestCase {
 
     @Autowired
     private ServicePointService servicePointService;
+
+    @Test
+    public void shouldFetchPointByCategory(){
+        //given
+        String categoryName ="Test";
+        ServicePointCategory servicePointCategory = new ServicePointCategory(categoryName);
+        servicePointCategory = servicePointCategoryRepository.save(servicePointCategory);
+        HashSet<ServicePointCategory> categories = new HashSet<ServicePointCategory>();
+        categories.add(servicePointCategory);
+
+        ServicePoint point1 = new ServicePoint(new BigDecimal(4000), new BigDecimal(14000), categories);
+        ServicePoint point1_1 = new ServicePoint(new BigDecimal(4100), new BigDecimal(14400), categories);
+        ServicePoint point1_2 = new ServicePoint(new BigDecimal(4200), new BigDecimal(14500), categories);
+        ServicePoint point1_3 = new ServicePoint(new BigDecimal(4300), new BigDecimal(14600), categories);
+
+        //when
+        servicePointService.create(point1);
+        servicePointService.create(point1_1);
+        servicePointService.create(point1_2);
+        servicePointService.create(point1_3);
+
+        //then
+
+        assertEquals(servicePointService.find(categoryName, new PageRequest(0,100)).size(), 4);
+    }
+
+    @Test
+    public void shouldFetchPointBySubCategory(){
+        //given
+        String categoryName ="Test";
+        HashSet<ServicePointCategory> subCategories = new HashSet<ServicePointCategory>();
+        subCategories.add(new ServicePointCategory(categoryName));
+
+        ServicePointCategory servicePointCategory = new ServicePointCategory("Root Category");
+        servicePointCategory.setSubCategories(subCategories);
+        servicePointCategory = servicePointCategoryRepository.save(servicePointCategory);
+        HashSet<ServicePointCategory> categories = new HashSet<ServicePointCategory>();
+        categories.add(servicePointCategory);
+
+        ServicePoint point1 = new ServicePoint(new BigDecimal(4000), new BigDecimal(14000), categories);
+        ServicePoint point1_1 = new ServicePoint(new BigDecimal(4100), new BigDecimal(14400), categories);
+        ServicePoint point1_2 = new ServicePoint(new BigDecimal(4200), new BigDecimal(14500), categories);
+        ServicePoint point1_3 = new ServicePoint(new BigDecimal(4300), new BigDecimal(14600), categories);
+
+        //when
+        servicePointService.create(point1);
+        servicePointService.create(point1_1);
+        servicePointService.create(point1_2);
+        servicePointService.create(point1_3);
+
+        //then
+
+        assertEquals(servicePointService.find(categoryName, new PageRequest(0,100)).size(), 4);
+    }
 
 
     @Test

@@ -17,7 +17,19 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-neo4j</artifactId>
-            <version>3.2.1.RELEASE</version>
+            <version>3.3.0.BUILD-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
 </project>

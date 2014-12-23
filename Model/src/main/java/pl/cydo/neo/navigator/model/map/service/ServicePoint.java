@@ -15,6 +15,10 @@ import java.util.Set;
 @NodeEntity
 public class ServicePoint extends Point {
 
+    protected String name;
+    //todo: to complete fields
+    //...
+
     @Fetch
     @RelatedTo(type="CATEGORY", direction = Direction.INCOMING)
     private Set<ServicePointCategory> categories;
@@ -27,6 +31,31 @@ public class ServicePoint extends Point {
         super(latitude, longitude);
         this.categories = categories;
     }
+
+    public ServicePoint(BigDecimal latitude, BigDecimal longitude, String name, Set<ServicePointCategory> categories) {
+        super(latitude, longitude);
+        this.name = name;
+        this.categories = categories;
+    }
+
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(Long id) {
+        super.setId(id);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public Set<ServicePointCategory> getCategories() {
         return categories;
@@ -45,14 +74,16 @@ public class ServicePoint extends Point {
         ServicePoint that = (ServicePoint) o;
 
         if (categories != null ? !categories.equals(that.categories) : that.categories != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = 0;
         result = 31 * result + (categories != null ? categories.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 }

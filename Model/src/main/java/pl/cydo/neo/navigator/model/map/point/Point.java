@@ -1,8 +1,7 @@
 package pl.cydo.neo.navigator.model.map.point;
 
-import org.springframework.data.neo4j.annotation.GraphId;
-import org.springframework.data.neo4j.annotation.Indexed;
-import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.*;
 import pl.cydo.neo.navigator.model.map.zone.Zone;
 
 import java.math.BigDecimal;
@@ -14,6 +13,7 @@ public abstract class Point {
     @GraphId
     private Long id;
 
+    @RelatedTo(type = "ZONE_POINT", direction = Direction.BOTH)
     protected Set<Zone> zones;
 
     protected BigDecimal latitude;
