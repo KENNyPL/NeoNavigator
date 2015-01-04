@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <head>
 
@@ -33,7 +34,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
@@ -42,21 +42,39 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <c:url value="/login" var="loginUrl"/>
+                        <form role="form" action="${loginUrl}" method="post">
+                            <c:if test="${param.error != null}">
+                                <p>
+                                    Invalid username and password.
+                                </p>
+                            </c:if>
+                            <c:if test="${param.logout != null}">
+                                <p>
+                                    You have been logged out.
+                                </p>
+                            </c:if>
+
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input id="username" name="username" class="form-control" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input id="password" name="password" class="form-control" placeholder="Password" name="password" type="password" value="">
                                 </div>
                                 <div class="checkbox">
                                     <label>
                                         <input name="remember" type="checkbox" value="Remember Me">Remember Me
                                     </label>
                                 </div>
+
+                                <input type="hidden"                        6
+                                       name="${_csrf.parameterName}"
+                                       value="${_csrf.token}"/>
+
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
+                                <button type="submit" class="btn btn-lg btn-success btn-block">Log in</button>
+                                <%--<a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>--%>
                             </fieldset>
                         </form>
                     </div>
@@ -64,6 +82,16 @@
             </div>
         </div>
     </div>
+
+    <c:url value="/logout" var="logoutUrl" />
+    <form action="${logoutUrl}"
+          method="post">
+        <input type="submit"
+               value="Log out" />
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+    </form>
 
     <!-- jQuery -->
     <script src="${pageContext.request.contextPath}/resources/bower_components/jquery/dist/jquery.min.js"></script>
