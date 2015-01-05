@@ -14,7 +14,7 @@ public class RootController {
     public String printWelcome(ModelMap model) {
         model.addAttribute("hello", "Hello world!");
         System.out.println("RootController.printWelcome");
-        return "hello";
+        return "index";
     }
 
     //Spring Security see this :
