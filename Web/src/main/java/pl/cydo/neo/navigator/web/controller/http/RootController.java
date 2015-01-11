@@ -1,19 +1,31 @@
 package pl.cydo.neo.navigator.web.controller.http;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import pl.cydo.neo.navigator.business.service.ServicePointCategoryService;
+import pl.cydo.neo.navigator.business.service.ServicePointService;
+import pl.cydo.neo.navigator.business.service.TestService;
+import pl.cydo.neo.navigator.model.map.service.category.ServicePointCategory;
 
 @Controller()
 public class RootController {
+    @Autowired
+    private ServicePointService pointService;
+
+    @Autowired
+    private TestService testService;
 
     @RequestMapping( value = "/", method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
-        model.addAttribute("hello", "Hello world!");
-        System.out.println("RootController.printWelcome");
+        model.addAttribute("point_count", pointService.getCount());
+        model.addAttribute("category_count", testService.getCount());
+        model.addAttribute("zone_count", 0);
+        model.addAttribute("user_count", 0);
         return "index";
     }
 

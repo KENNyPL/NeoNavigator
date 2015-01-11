@@ -21,6 +21,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
 
+
+
         List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
         grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
         grantedAuths.add(new SimpleGrantedAuthority(name));

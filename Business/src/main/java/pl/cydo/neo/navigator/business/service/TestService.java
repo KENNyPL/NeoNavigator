@@ -27,4 +27,8 @@ public class TestService {
     public ServicePointCategory findByName(String name) {
         return servicePointCategoryRepository.findByName(name);
     }
+
+    public Long getCount() {
+        return servicePointCategoryRepository.count();
+    }
 }

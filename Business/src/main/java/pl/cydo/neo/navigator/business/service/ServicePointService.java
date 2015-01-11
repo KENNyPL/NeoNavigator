@@ -24,7 +24,6 @@ public class ServicePointService {
     private ZoneRepository zoneRepository;
     @Autowired
     private ServicePointCategoryRepository servicePointCategoryRepository;
-
     @Autowired
     private PointRepository pointRepository;
 
@@ -93,5 +92,9 @@ public class ServicePointService {
 
     public ServicePoint find(String pointId) {
         return pointRepository.findOne(Long.parseLong(pointId));
+    }
+
+    public Long getCount() {
+        return pointRepository.count();
     }
 }

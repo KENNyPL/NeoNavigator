@@ -23,7 +23,6 @@ public class ServicePointCategory {
 
     public ServicePointCategory() {
         subCategories = new HashSet<ServicePointCategory>();
-
     }
 
     public ServicePointCategory(String name) {
