@@ -1,11 +1,10 @@
 package pl.cydo.neo.navigator.model.map.service.category;
 
 import org.neo4j.graphdb.Direction;
-import org.springframework.data.neo4j.annotation.GraphId;
-import org.springframework.data.neo4j.annotation.Indexed;
-import org.springframework.data.neo4j.annotation.NodeEntity;
-import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.annotation.*;
 import org.springframework.data.neo4j.support.index.IndexType;
+import pl.cydo.neo.navigator.model.map.point.Point;
+import pl.cydo.neo.navigator.model.map.service.ServicePoint;
 
 import java.util.HashSet;
 import java.util.List;
@@ -15,11 +14,16 @@ import java.util.Set;
 public class ServicePointCategory {
     @GraphId
     private Long id;
-    @Indexed(indexType = IndexType.FULLTEXT, indexName = "ServicePointCategory.name", unique = true)
+
+    @Indexed(indexType = IndexType.LABEL, unique = true, failOnDuplicate = true)
     private String name;
 
+    @Fetch
     @RelatedTo(type="SUB_CATEGORY", direction = Direction.OUTGOING)
-    private Set<ServicePointCategory> subCategories;
+    private Set<ServicePointCategory> subCategories = new HashSet<>();
+
+    @RelatedTo(type = "CATEGORY_POINTS", direction = Direction.BOTH, elementClass = ServicePoint.class)
+    private Set<ServicePoint> points = new HashSet<ServicePoint>();
 
     public ServicePointCategory() {
         subCategories = new HashSet<ServicePointCategory>();
@@ -57,6 +61,14 @@ public class ServicePointCategory {
         this.id = id;
     }
 
+    public Set<ServicePoint> getPoints() {
+        return points;
+    }
+
+    public void setPoints(Set<ServicePoint> points) {
+        this.points = points;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,6 +78,7 @@ public class ServicePointCategory {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (points != null ? !points.equals(that.points) : that.points != null) return false;
         if (subCategories != null ? !subCategories.equals(that.subCategories) : that.subCategories != null)
             return false;
 
@@ -77,6 +90,7 @@ public class ServicePointCategory {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (subCategories != null ? subCategories.hashCode() : 0);
+        result = 31 * result + (points != null ? points.hashCode() : 0);
         return result;
     }
 
@@ -86,6 +100,7 @@ public class ServicePointCategory {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", subCategories=" + subCategories +
+                ", points=" + points +
                 '}';
     }
 }

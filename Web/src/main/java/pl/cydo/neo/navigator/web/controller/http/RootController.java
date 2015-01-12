@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pl.cydo.neo.navigator.business.service.ServicePointCategoryService;
 import pl.cydo.neo.navigator.business.service.ServicePointService;
 import pl.cydo.neo.navigator.business.service.TestService;
 import pl.cydo.neo.navigator.model.map.service.category.ServicePointCategory;

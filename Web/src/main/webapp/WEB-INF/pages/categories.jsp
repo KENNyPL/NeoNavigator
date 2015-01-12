@@ -18,6 +18,10 @@
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/vakata-jstree-2f630b4/dist/themes/default/style.min.css"/>
 
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+
 
 </head>
 
@@ -78,7 +82,8 @@
     <script src="${pageContext.request.contextPath}/resources/vakata-jstree-2f630b4/dist/libs/jquery-2.1.3.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vakata-jstree-2f630b4/dist/jstree.min.js"></script>
     <script>
-        last_action="";
+        var last_action="";
+        var parent_id=null;
         $('#jstree')
                 .jstree({
                     "core": {
@@ -134,6 +139,15 @@
             ref.edit(sel);
         }
         ;
+
+        $(function () {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function(e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+        });
+
         function demo_delete() {
             //todo: to add execute delete current categories structure, check data integration etc...
             var ref = $('#jstree').jstree(true),
@@ -142,9 +156,25 @@
                 return false;
             }
 
-            ref.delete_node(sel);
-        }
-        ;
+            $.ajax({
+                traditional: true,
+                type: "DELETE",
+                url: 'categories/byId/'+parent_id,
+                dataType: "json",
+                success: function(resut){
+                    console.log('success' + resut.message);
+                    console.log('result: ' + resut.result);
+                    if(resut.result=="OK"){
+                        ref.delete_node(sel);
+                    } else{
+
+                    }
+                },
+                error:function(resut){
+                    console.log('failed: ' + resut.message);
+                }
+            });
+        };
 
 
         $(function () {
@@ -159,6 +189,12 @@
                 }, 250);
             });
         });
+        function handle_category_add_fail(resut, node) {
+            var ref = $('#jstree').jstree(true),
+                    sel = ref.get_selected();
+            ref.delete_node(node);
+            alert("<spring:message code="add_category_fail" text="Hi" /> \""+node.text+"\", reason: "+resut.message);
+        };
 
         $(function () {
             // 6 create an instance when the DOM is ready
@@ -169,7 +205,10 @@
 
                 console.log("changed---");
                 if (data.node) {
-
+                    parent_id=data.node.id;
+                    if(!$.isNumeric(parent_id)){
+                        parent_id=0;
+                    }
                     $('#rename_element_button').removeClass('disabled');
                     $('#del_element_button').removeClass('disabled');
                     $('#add_element_button').removeClass('disabled');
@@ -194,13 +233,50 @@
                 console.log(data);
                 console.log(last_action);
                 if(last_action=="create_node"){
+                    console.log(parent_id);
+                    console.log(data.text)
+
                     //todo: insert into database, if failed then delete node like below:
-                    /*var ref = $('#jstree').jstree(true),
-                            sel = ref.get_selected();
-                    ref.delete_node(data.node);*/
 
 
+                    $.ajax({
+                        traditional: true,
+                        type: "POST",
+                        url: 'categories/add',
+                        data: 'id='+ parent_id+'&name='+ data.text ,
+                        dataType: "json",
+                        success: function(resut){
+                            console.log('success' + resut.message);
+                            console.log('result: ' + resut.result);
+                            if(resut.result!="OK"){
+                                handle_category_add_fail(resut, data.node);
+                            }
+                        },
+                        error:function(resut){
+                            console.log('failed: ' + resut.message);
+                            handle_category_add_fail(resut, data.node);
+                        }
+                    });
 
+                } else {
+                    $.ajax({
+                        traditional: true,
+                        type: "POST",
+                        url: 'categories/rename',
+                        data: 'id='+ parent_id+'&name='+ data.text+"&${_csrf.parameterName}=${_csrf.token}" ,
+                        dataType: "json",
+                        success: function(resut){
+                            console.log('success' + resut.message);
+                            console.log('result: ' + resut.result);
+                            if(resut.result!="OK"){
+                                tree.set_text(data.node, data.node);
+                            }
+                        },
+                        error:function(resut){
+                            console.log('failed: ' + resut.message);
+                            tree.set_text(data.node, data.old);
+                        }
+                    });
                 }
                 last_action="rename_node";
             });

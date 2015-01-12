@@ -1,11 +1,13 @@
 package pl.cydo.neo.navigator.web.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pl.cydo.neo.navigator.model.map.service.category.ServicePointCategory;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class CategoriesTreeModel {
+    private Long id;
     private String text;
     private State state;
     private List<CategoriesTreeModel> children= new LinkedList<>();
@@ -15,6 +17,14 @@ public class CategoriesTreeModel {
 
     public CategoriesTreeModel(String text) {
         this.text = text;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getText() {
@@ -47,6 +57,7 @@ public class CategoriesTreeModel {
 
     public static CategoriesTreeModel from(ServicePointCategory category) {
         CategoriesTreeModel element = new CategoriesTreeModel(category.getName());
+        element.setId(category.getId());
         for(ServicePointCategory subCategory:category.getSubCategories()){
             element.add(from(subCategory));
         }

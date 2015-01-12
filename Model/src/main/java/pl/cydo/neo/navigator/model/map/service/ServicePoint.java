@@ -20,7 +20,7 @@ public class ServicePoint extends Point {
     //...
 
     @Fetch
-    @RelatedTo(type="CATEGORY", direction = Direction.INCOMING)
+    @RelatedTo(type="CATEGORY_POINTS", direction = Direction.INCOMING)
     private Set<ServicePointCategory> categories;
 
     public ServicePoint() {
