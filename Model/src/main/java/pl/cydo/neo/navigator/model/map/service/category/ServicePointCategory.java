@@ -22,7 +22,7 @@ public class ServicePointCategory {
     @RelatedTo(type="SUB_CATEGORY", direction = Direction.OUTGOING)
     private Set<ServicePointCategory> subCategories = new HashSet<>();
 
-    @RelatedTo(type = "CATEGORY_POINTS", direction = Direction.BOTH, elementClass = ServicePoint.class)
+    @RelatedTo(type = "CATEGORY_POINTS", direction = Direction.OUTGOING, elementClass = ServicePoint.class)
     private Set<ServicePoint> points = new HashSet<ServicePoint>();
 
     public ServicePointCategory() {

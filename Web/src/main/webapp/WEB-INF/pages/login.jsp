@@ -68,7 +68,7 @@
                                     </label>
                                 </div>
 
-                                <input type="hidden"                        6
+                                <input type="hidden"
                                        name="${_csrf.parameterName}"
                                        value="${_csrf.token}"/>
 

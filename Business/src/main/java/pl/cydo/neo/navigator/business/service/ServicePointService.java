@@ -52,6 +52,14 @@ public class ServicePointService {
 
     }
 
+    @Transactional
+    public void create(ServicePoint servicePoint, List<Long> categoryIds) {
+        for (Long categoryId : categoryIds) {
+            servicePoint.getCategories().add(servicePointCategoryRepository.findOne(categoryId));
+        }
+        create(servicePoint);
+    }
+
     public Collection<ServicePoint> find(String categoryName, Pageable pageable) {
         return IteratorUtils.toList(pointRepository.findByCategoryName(categoryName, pageable).iterator());
     }
@@ -96,5 +104,9 @@ public class ServicePointService {
 
     public Long getCount() {
         return pointRepository.count();
+    }
+
+    public List<ServicePoint> findAll() {
+        return pointRepository.findAll().as(List.class);
     }
 }

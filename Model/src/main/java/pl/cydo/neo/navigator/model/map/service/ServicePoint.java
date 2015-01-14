@@ -2,14 +2,13 @@ package pl.cydo.neo.navigator.model.map.service;
 
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
-import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 import pl.cydo.neo.navigator.model.map.point.Point;
 import pl.cydo.neo.navigator.model.map.service.category.ServicePointCategory;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @NodeEntity
@@ -20,11 +19,16 @@ public class ServicePoint extends Point {
     //...
 
     @Fetch
-    @RelatedTo(type="CATEGORY_POINTS", direction = Direction.INCOMING)
-    private Set<ServicePointCategory> categories;
+    @RelatedTo(type = "CATEGORY_POINTS", direction = Direction.INCOMING)
+    private Set<ServicePointCategory> categories = new HashSet<>();
 
     public ServicePoint() {
         super();
+    }
+
+    public ServicePoint(BigDecimal latitude, BigDecimal longitude, String name) {
+        super(latitude, longitude);
+        this.name = name;
     }
 
     public ServicePoint(BigDecimal latitude, BigDecimal longitude, Set<ServicePointCategory> categories) {
@@ -82,7 +86,6 @@ public class ServicePoint extends Point {
     @Override
     public int hashCode() {
         int result = 0;
-        result = 31 * result + (categories != null ? categories.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
