@@ -1,5 +1,6 @@
 package pl.cydo.neo.navigator.model.map.service.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.*;
 import org.springframework.data.neo4j.support.index.IndexType;
@@ -22,6 +23,7 @@ public class ServicePointCategory {
     @RelatedTo(type="SUB_CATEGORY", direction = Direction.OUTGOING)
     private Set<ServicePointCategory> subCategories = new HashSet<>();
 
+    @JsonIgnore
     @RelatedTo(type = "CATEGORY_POINTS", direction = Direction.OUTGOING, elementClass = ServicePoint.class)
     private Set<ServicePoint> points = new HashSet<ServicePoint>();
 

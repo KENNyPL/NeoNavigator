@@ -64,6 +64,18 @@ public class ServicePointService {
         return IteratorUtils.toList(pointRepository.findByCategoryName(categoryName, pageable).iterator());
     }
 
+    @Transactional
+    public List<ServicePoint> find(Long latitude, Long longitude, Long distance, String categoryName) {
+        List<ServicePoint> result = new LinkedList<ServicePoint>();
+        List<Zone> zones = fetchZones(latitude, longitude, distance);
+        ServicePointCategory category = servicePointCategoryRepository.findByName(categoryName);
+
+        for (Zone zone : zones) {
+            result.addAll(IteratorUtils.toList(pointRepository.getAllZonesPoints(zone, category).iterator()));
+        }
+        return result;
+    }
+
     public List<ServicePoint> find(Long latitude, Long longitude, Long distance, ServicePointCategory category) {
         List<ServicePoint> result = new LinkedList<ServicePoint>();
         List<Zone> zones = fetchZones(latitude, longitude, distance);
@@ -77,10 +89,10 @@ public class ServicePointService {
         List<Zone> zones = new LinkedList<Zone>();
         long zoneSize = GeoMath.GPS_POSITION_1KM_DISTANCE;
 
-        long latFrom = latitude - (distance / 2);
-        long latTo = latitude + (distance / 2);
-        long longFrom = longitude - (distance / 2);
-        long longTo = longitude + (distance / 2);
+        long latFrom = latitude - (distance);
+        long latTo = latitude + (distance);
+        long longFrom = longitude - (distance);
+        long longTo = longitude + (distance);
 
         long zoneFromLat = ((latFrom / zoneSize) * zoneSize);
         long zoneToLat = ((latTo / zoneSize) * zoneSize) + zoneSize;

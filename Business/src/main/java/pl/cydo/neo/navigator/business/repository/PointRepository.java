@@ -18,7 +18,7 @@ public interface PointRepository extends GraphRepository<ServicePoint> {
             "where cat.name in {1} return point")
     Iterable<ServicePoint> getAllZonesPoints(Zone zone, String categoryName);
 
-    @Query("start zone=node({0}) match zone-[zp:ZONE_POINT]->(point:ServicePoint)<-[c:CATEGORY] - (cat:ServicePointCategory) " +
+    @Query("start zone=node({0}) match zone-[zp:ZONE_POINT]->(point:Point)<-[c:CATEGORY_POINTS] - (cat:ServicePointCategory) " +
             " where id(cat)={1} return point")
     Iterable<ServicePoint> getAllZonesPoints(Zone zone, ServicePointCategory category);
 

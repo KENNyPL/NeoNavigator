@@ -82,7 +82,7 @@
             <input type="hidden"
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}"/>
-            <form:input path="categoryIds" type="hidden" name="jsfields" id="jsfields" value=""/>
+            <form:input path="categoryIds" type="hidden" name="jsfields" id="jsfields" value="0"/>
         </form:form>
 
 
