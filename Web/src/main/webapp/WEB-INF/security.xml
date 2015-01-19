@@ -10,7 +10,7 @@
 
 
     <http pattern="/rest/**" create-session="stateless">
-        <intercept-url pattern='/**' access="hasRole('ROLE_REMOTE')" />
+        <intercept-url pattern='/**' access="permitAll" />
         <http-basic />
     </http>
 
