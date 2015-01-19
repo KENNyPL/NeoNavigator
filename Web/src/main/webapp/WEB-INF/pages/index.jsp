@@ -44,7 +44,8 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#">
+                    <c:url value="/points" var="pointsUrl" />
+                    <a href="${pointsUrl}">
                         <div class="panel-footer">
                             <span class="pull-left"><spring:message code="details"/></span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -90,7 +91,9 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#">
+
+                    <c:url value="/categories" var="categoriesUrl" />
+                    <a href="${categoriesUrl}">
                         <div class="panel-footer">
                             <span class="pull-left"><spring:message code="details"/></span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
